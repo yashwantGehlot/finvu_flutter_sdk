@@ -183,6 +183,7 @@ public class FinvuFlutterSdkPlugin: NSObject, FlutterPlugin, NativeFinvuManager 
         let consentDetail = ConsentRequestDetailInfo(
             consentId: consentRequest.consentId,
             consentHandle: consentRequest.consentHandleId,
+            statusLastUpdateTimestamp: nil,
             financialInformationUser: FinancialInformationEntityInfo(
                 id: consentRequest.financialInformationUser.id,
                 name: consentRequest.financialInformationUser.name
@@ -256,6 +257,7 @@ public class FinvuFlutterSdkPlugin: NSObject, FlutterPlugin, NativeFinvuManager 
         let consentDetail = ConsentRequestDetailInfo(
             consentId: consentRequest.consentId,
             consentHandle: consentRequest.consentHandleId,
+            statusLastUpdateTimestamp: nil,
             financialInformationUser: FinancialInformationEntityInfo(
                 id: consentRequest.financialInformationUser.id,
                 name: consentRequest.financialInformationUser.name
@@ -360,7 +362,8 @@ public class FinvuFlutterSdkPlugin: NSObject, FlutterPlugin, NativeFinvuManager 
                 consentDataLifePeriod: NativeConsentDataLifePeriod(
                     unit: consentRequestDetail.consentDataLifePeriod.unit,
                     value: consentRequestDetail.consentDataLifePeriod.value),
-                fiTypes: consentRequestDetail.fiTypes
+                fiTypes: consentRequestDetail.fiTypes,
+                statusLastUpdateTimestamp: self.getDateOrNil(date: consentRequestDetail.statusLastUpdateTimestamp)
             )
         }
     }
@@ -432,6 +435,14 @@ public class FinvuFlutterSdkPlugin: NSObject, FlutterPlugin, NativeFinvuManager 
             }
             
             completion(.success(()))
+        }
+    }
+    
+    func getDateOrNil(date: Date?) -> String? {
+        return if (date != nil) {
+            self.formatter.string(from: date!)
+        } else {
+            nil
         }
     }
 }
